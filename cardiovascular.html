@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>United States Air Quality Index</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Leaflet.heat plugin -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <!-- D3 JavaScript -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Plotly JavaScript -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>United States Air Quality Index</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#map_section">Map</a></li>
+                <li><a href="#county_section">County Plot</a></li>
+                <li><a href="#state_section">State Plot</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about"></section>
+            <h2>About</h2>
+                <p>
+                    <div id="about_text">
+                        This site features Air Quality Index (AQI ) data points from across the United States to show air quality 
+                        across the US, from good to hazardous. Air quality measures the concentration of pollutants in the air at a 
+                        specific time and place. Poor air quality is hazy and can harm human health and the environment. It's important
+                        to note that air quality can change rapidly, even from hour to hour. AQI data can help show sensitive groups when
+                        to be careful in times of bad air quality, keeping them alert and responsive.
+                    </div>
+                </p>   
+        <section id="map_section">
+            <h2>US Map of Max AQI</h2>
+            <div class="container">
+                <div id="map"></div>
+            </div>
+        <section id="county_section">
+            <h2>10 Best and Worst Counties (Median AQI)</h2>
+            <div class="container">
+                <div id="plot"></div>               
+            </div>
+        </section>
+
+        <section id="state_section">
+            <h2>10 Best and Worst States (Average Median AQI)</h2>
+            <div class="container">
+                <div id="plotstate"></div>
+                </select>              
+            </div>
+        </section>
+
+
+
+        <section id="contact">
+            <h3>Contact Section</h3>
+            <p>Brandon Umana - <a href="https://github.com/Brandon9353" target="_blank">GitHub Profile</a></p>
+            <p>Scott Park-Vokoun - <a href="https://github.com/vokouns" target="_blank">GitHub Profile</a></p>
+            <p>Ioana Platon - <a href="https://github.com/IoanaPlaton" target="_blank">GitHub Profile</a></p>
+            <p>Ethan Devey - <a href="https://github.com/edevey27" target="_blank">GitHub Profile</a></p>
+        </section>
+    </main>
+    </main>
+<footer>
+    <p>&copy; 2024 the BSIE group. All rights reserved.</p>
+</footer>
+
+<script src="static/js/usa_map.js"></script>
+<script src="static/js/aqi_plots.js"></script>
+<script src="static/js/state_plots.js"></script>
+</body>
+</html>
