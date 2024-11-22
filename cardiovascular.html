@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>United States Air Quality Index</title>
+    <title>Cardiovascular Disease Prediction</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -28,14 +28,11 @@
 
 <body>
     <header>
-        <h1>United States Air Quality Index</h1>
+        <h1>Predicting Heart Disease</h1>
         <nav>
             <ul>
                 <li><a href="#about">About</a></li>
-                <li><a href="#map_section">Map</a></li>
-                <li><a href="#county_section">County Plot</a></li>
-                <li><a href="#state_section">State Plot</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#quiz">Quiz</a></li>
             </ul>
         </nav>
     </header>
@@ -45,32 +42,127 @@
             <h2>About</h2>
                 <p>
                     <div id="about_text">
-                        This site features Air Quality Index (AQI ) data points from across the United States to show air quality 
-                        across the US, from good to hazardous. Air quality measures the concentration of pollutants in the air at a 
-                        specific time and place. Poor air quality is hazy and can harm human health and the environment. It's important
-                        to note that air quality can change rapidly, even from hour to hour. AQI data can help show sensitive groups when
-                        to be careful in times of bad air quality, keeping them alert and responsive.
-                    </div>
+                        This site shows if you are prone to cardiovascular disease(cvd). By 
+                        following this guide lines it will show if you are likely to be at risk of 
+                        cardiovascular disease(cvd). If you exercise, have Heart disease, skin cancer, other 
+                        forms of cancer, Diabetes, arthritis, male or female, age height, weight, BMI,
+                        how much alcohol and smoking,fruit and veggie consumption, and how many
+                        fried potatoes consumed.
                 </p>   
-        <section id="map_section">
-            <h2>US Map of Max AQI</h2>
-            <div class="container">
-                <div id="map"></div>
-            </div>
-        <section id="county_section">
-            <h2>10 Best and Worst Counties (Median AQI)</h2>
-            <div class="container">
-                <div id="plot"></div>               
-            </div>
-        </section>
+            </head>
+            <body>
+                <h2></h2>
+                <img src="img.png" alt="staying alive" width="1250" height="400">
+            </body>
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Cardiovascular Risk Calculator</title>
+                </head>
+                <body>
+                    <h1>Cardiovascular Risk Calculator</h1>
+                    <form action="/predict" method="post">
+                        <label for="height">Height (cm):</label>
+                        <input type="number" name="Height_(cm)" required><br>
+                
+                        <label for="weight">Weight (kg):</label>
+                        <input type="number" name="Weight_(kg)" required><br>
+                
+                        <label for="bmi">BMI:</label>
+                        <input type="number" step="0.1" name="BMI" required><br>
+                
+                        <label for="alcohol">Alcohol Consumption:</label>
+                        <input type="number" name="Alcohol_Consumption" required><br>
+                
+                        <label for="fruit">Fruit Consumption:</label>
+                        <input type="number" name="Fruit_Consumption" required><br>
+                
+                        <label for="veggies">Green Vegetables Consumption:</label>
+                        <input type="number" name="Green_Vegetables_Consumption" required><br>
+                
+                        <label for="fries">Fried Potato Consumption:</label>
+                        <input type="number" name="FriedPotato_Consumption" required><br>
+                
+                        <label for="health">General Health:</label>
+                        <select name="General_Health" required>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Poor">Poor</option>
+                        </select><br>
+                
+                        <label for="exercise">Do you exercise regularly?</label>
+                        <select name="Exercise" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+                
+                        <label for="Heart Disease">Heart Disease:</label>
+                        <select name="Heart Disease" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
 
-        <section id="state_section">
-            <h2>10 Best and Worst States (Average Median AQI)</h2>
-            <div class="container">
-                <div id="plotstate"></div>
-                </select>              
-            </div>
-        </section>
+                        <label for="Skin Cancer">Skin Cancer:</label>
+                        <select name="Skin cancer" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="Other Cancer">Other Cancer:</label>
+                        <select name="Other Cancer" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="Depression">Depression:</label>
+                        <select name="Depression" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="Diabetes">Diabetes:</label>
+                        <select name="Diabetes" required>
+                            <option value="Yes">Yes</option>
+                            <option value="Yes, but female told only during pregnancy">Yes, but female told only during pregnancy</option>
+                            <option value="No, pre-diabetes or borderline diabetes">No, pre-diabetes or borderline diabete</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="Arthritis">Arthritis:</label>
+                        <select name="Arthritis" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="sex">Sex:</label>
+                        <select name="Sex" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select><br>
+                
+                        <label for="age">Age Category:</label>
+                        <select name="Age_Category" required>
+                            <option value="18-24">18-24</option>
+                            <option value="25-29">25-29</option>
+                            <option value="30-34">30-34</option>
+                            <option value="35-39">35-39</option>
+                            <option value="40-44">40-44</option>
+                            <option value="45-49">45-49</option>
+                            <option value="50-54">50-54</option>
+                            <option value="55-59">55-59</option>
+                            <option value="60-64">60-64</option>
+                            <option value="65-69">65-69</option>
+                            <option value="70-74">70-74</option>
+                            <option value="75-79">75-79</option>
+                            <option value="80+">80+</option>
+                        </select><br>
+                
+                        <button type="submit">Calculate Risk</button>
+                    </form>
+                
 
 
 
