@@ -1,15 +1,21 @@
 
+  
+
+.image-right {    
+     float: right; /* This moves the image to the right */
+}
+
 /* Style for the body of the page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #fffcfc;
     margin: 0;
     padding: 0;
 }
 
 /* Header style */
 header {
-    background-color: #333;
+    background-color: #030000;
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -35,7 +41,7 @@ nav ul li a {
 /* Style for the main section */
 main {
     padding: 20px;
-    background-color: white;
+    background-color: rgb(203, 228, 240);
     margin-top: 20px;
 }
 
@@ -43,16 +49,16 @@ main {
 p {
     font-size: 16px;
     line-height: 1.5;
-    color: #333;
+    color: #f70000;
 }
 
 /* Style for footer */
 footer {
-    background-color: #333;
-    color: white;
+    background-color: #000000;
+    color: rgb(0, 0, 0);
     text-align: center;
     padding: 10px 0;
-    position: fixed;
+    position: bottom;
     width: 100%;
     bottom: 0;
 }
