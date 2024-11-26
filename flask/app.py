@@ -1,20 +1,15 @@
 from flask import Flask, render_template, request
-from tensorflow.keras.models import load_model
 import joblib
 import pandas as pd
 import numpy as np
-import logging
 
 # Initialize the Flask app
 app = Flask(__name__)
 
-# Load the Keras model, scaler, and column list
-model = load_model("nn_model.keras")
-scaler = joblib.load("scaler.pkl")
-columns = joblib.load("column_list.pkl")
-
-# Enable debug logging
-logging.basicConfig(level=logging.DEBUG)
+# Load the regression model, scaler, and column list
+model = joblib.load("regression_model.pkl")  # Replace with your saved regression model
+scaler = joblib.load("scaler.pkl")         # Scaler used for numerical data
+columns = joblib.load("column_list.pkl")   # Column structure used during training
 
 @app.route("/")
 def home():
@@ -23,44 +18,51 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Collect and process user input
+        # Collect user input
         user_data = {
-            "Height_(cm)": float(request.form.get("Height_(cm)", 0)),
-            "Weight_(kg)": float(request.form.get("Weight_(kg)", 0)),
-            "BMI": float(request.form.get("BMI", 0)),
+            "Height_(cm)": float(request.form["Height_(cm)"]),
+            "Weight_(kg)": float(request.form["Weight_(kg)"]),
+            "BMI": float(request.form["BMI"]),
             "Alcohol_Consumption": request.form["Alcohol_Consumption"],
-            "Fruit_Consumption": int(request.form.get("Fruit_Consumption", 0)),
-            "Green_Vegetables_Consumption": int(request.form.get("Green_Vegetables_Consumption", 0)),
-            "FriedPotato_Consumption": int(request.form.get("FriedPotato_Consumption", 0)),
+            "Fruit_Consumption": int(request.form["Fruit_Consumption"]),
+            "Green_Vegetables_Consumption": int(request.form["Green_Vegetables_Consumption"]),
+            "FriedPotato_Consumption": int(request.form["FriedPotato_Consumption"]),
             "General_Health": request.form["General_Health"],
             "Exercise": request.form["Exercise"],
+            "Heart_Disease": request.form["Heart_Disease"],
             "Sex": request.form["Sex"],
             "Age_Category": request.form["Age_Category"]
         }
 
-        # Preprocessing
+        # Convert input into a DataFrame
         user_df = pd.DataFrame([user_data])
+
+        # One-hot encode categorical data
         user_dummies = pd.get_dummies(user_df)
+
+        # Align columns with the training data
         user_dummies = user_dummies.reindex(columns=columns, fill_value=0)
-        numerical_features = ["Height_(cm)", "Weight_(kg)", "BMI", 
-                              "Fruit_Consumption", "Green_Vegetables_Consumption", 
-                              "FriedPotato_Consumption"]
-        user_dummies[numerical_features] = scaler.transform(user_dummies[numerical_features])
-        final_input = user_dummies.values
 
-        # Prediction
-        prediction = model.predict(final_input)[0][0]
-        threshold = 0.5
-        if prediction >= threshold:
-            result = f"At Risk for Cardiovascular Disease ({prediction * 100:.2f}%)"
-        else:
-            result = f"Not at Risk for Cardiovascular Disease ({prediction * 100:.2f}%)"
+        # Debugging: Check alignment and dtypes
+        print("Processed Columns:", user_dummies.columns)
+        print("Dtypes of Processed Data:")
+        print(user_dummies.dtypes)
 
-        return render_template("result.html", prediction=result)
+        # Use DataFrame directly
+        final_input = user_dummies
+
+        # Predict using the regression model
+        prediction = model.predict(final_input)[0]
+
+        # Render the result
+        return render_template("result.html", prediction=f"Predicted Risk: {prediction:.2f}%")
 
     except Exception as e:
-        # Pass the error message to the error page
+        print(f"Error occurred: {e}")
         return render_template("error.html", error=str(e))
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
