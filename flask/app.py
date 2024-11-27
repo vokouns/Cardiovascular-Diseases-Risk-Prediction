@@ -1,14 +1,20 @@
 from flask import Flask, render_template, request
 import joblib
 import pandas as pd
+import os
+
+# Define the headers and the first row of data for the dummy DataFrame
+headers = [ 'Height_(cm)', 'Weight_(kg)', 'BMI', 'Alcohol_Consumption', 'Fruit_Consumption', 'Green_Vegetables_Consumption', 'FriedPotato_Consumption', 'General_Health_Excellent', 'General_Health_Fair', 'General_Health_Good', 'General_Health_Poor', 'General_Health_Very Good', 'Exercise_No', 'Exercise_Yes', 'Skin_Cancer_No', 'Skin_Cancer_Yes', 'Other_Cancer_No', 'Other_Cancer_Yes', 'Depression_No', 'Depression_Yes', 'Diabetes_No', 'Diabetes_No, pre-diabetes or borderline diabetes', 'Diabetes_Yes', 'Diabetes_Yes, but female told only during pregnancy', 'Arthritis_No', 'Arthritis_Yes', 'Sex_Female', 'Sex_Male', 'Age_Category_18-24', 'Age_Category_25-29', 'Age_Category_30-34', 'Age_Category_35-39', 'Age_Category_40-44', 'Age_Category_45-49', 'Age_Category_50-54', 'Age_Category_55-59', 'Age_Category_60-64', 'Age_Category_65-69', 'Age_Category_70-74', 'Age_Category_75-79', 'Age_Category_80+', 'Smoking_History_No', 'Smoking_History_Yes' ]
+row = [ 122, 55, 14, 12, 12, 12, 12, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ]
+starting_dummy_df = pd.DataFrame([row], columns=headers)
 
 # Initialize the Flask app
 app = Flask(__name__)
 
 # Load the regression model, scaler, and column list
-model = joblib.load("regression_model.pkl")  # Replace with your saved regression model
-scaler = joblib.load("scaler.pkl")           # Scaler used for numerical data
-columns = joblib.load("column_list.pkl")     # Column structure used during training
+model = joblib.load("regression_model.pkl")
+scaler = joblib.load("scaler.pkl")
+columns = joblib.load("column_list.pkl")
 
 @app.route("/")
 def home():
@@ -34,53 +40,56 @@ def predict():
             "Diabetes": request.form["Diabetes"],
             "Arthritis": request.form["Arthritis"],
             "Sex": request.form["Sex"],
-            "Age_Category": request.form["Age_Category"]
+            "Age_Category": request.form["Age_Category"],
+            "Smoking_History": request.form["Smoking_History"]
         }
 
-        # Debugging: Print raw user input
-        print("Raw User Data:", user_data)
-
-        # Step 1: Convert user_data into a DataFrame
+        # Convert user input into a DataFrame
         user_df = pd.DataFrame([user_data])
-        print("Initial User DataFrame:")
-        print(user_df)
 
-        # Step 2: One-hot encode categorical data
+        # One-hot encode user input
         user_dummies = pd.get_dummies(user_df)
-        print("One-Hot Encoded DataFrame:")
-        print(user_dummies)
 
-        # Step 3: Align columns with the training data
-        user_dummies = user_dummies.reindex(columns=columns, fill_value=0)
-        print("Aligned DataFrame Columns:")
-        print(user_dummies.columns)
+        # Ensure all expected columns are present
+        for col in columns:
+            if col not in user_dummies.columns:
+                user_dummies[col] = 0
 
-        # Step 4: Scale numerical features
-        numerical_features = ["Height_(cm)", "Weight_(kg)", "BMI", "Alcohol_Consumption",
-                              "Fruit_Consumption", "Green_Vegetables_Consumption", 
-                              "FriedPotato_Consumption"]
-        user_dummies[numerical_features] = scaler.transform(user_dummies[numerical_features])
-        print("Scaled Numerical Features:")
-        print(user_dummies[numerical_features])
+        # Align column order
+        user_dummies = user_dummies[columns]
 
-        # Step 5: Use DataFrame directly for prediction
-        final_input = user_dummies
-        print("Final Input to Model:")
-        print(final_input)
+        # Combine with starting dummy DataFrame
+        combined_df = pd.concat([starting_dummy_df, user_dummies], ignore_index=True)
 
-        # Predict using the regression model
-        prediction = model.predict(final_input)[0]
+        # Save combined DataFrame as CSV for inspection
+        if not os.path.exists("data"):
+            os.makedirs("data")
+        csv_path = os.path.join("data", "debug_output.csv")
+        combined_df.to_csv(csv_path, index=False)
+        print(f"CSV saved successfully at: {csv_path}")
 
-        # Debugging: Print prediction result
-        print("Prediction Result:", prediction)
+        # Extract the second row for prediction
+        prediction_input = combined_df.iloc[1:2]  # Ensure it's a DataFrame, not a Series
 
-        # Render the result
-        return render_template("result.html", prediction=f"Predicted Risk: {prediction:.2f}%")
+        # Align the columns with the training data
+        prediction_input = prediction_input[columns]
+
+        # Run the prediction directly on the DataFrame
+        prediction = model.predict(prediction_input)[0]
+
+
+        # Interpret the prediction
+        if prediction == 1:
+            result = "At Risk for Cardiovascular Disease"
+        else:
+            result = "Not at Risk for Cardiovascular Disease"
+
+        return render_template("result.html", prediction=result)
 
     except Exception as e:
-        # Log error for debugging
         print(f"Error occurred: {e}")
         return render_template("error.html", error=str(e))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
