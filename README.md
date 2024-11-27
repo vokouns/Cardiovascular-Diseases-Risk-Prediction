@@ -38,6 +38,13 @@ The result file contains the coding for our results page that populates once som
 
 ## References
 Kaggle - https://www.kaggle.com/datasets/alphiree/cardiovascular-diseases-risk-prediction-dataset
+
 Gemini - leveraged Colab's Gemini tool to troubleshoot coding errors while running our models and creating our charts.
-Alamy - reference for our BMI index chart for the website
-Utilized module challenge homework and weekly exercises for module coding examples and references.
+
+Alamy - graphic reference for our BMI index chart for the website
+
+Joblib library - https://joblib.readthedocs.io/en/stable/
+
+Utilized module challenge homework and weekly exercises for model coding examples and references.
+
+Instructor and TA support with trouble shooting our website data collection and prediction model.
