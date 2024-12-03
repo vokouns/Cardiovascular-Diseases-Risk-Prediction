@@ -43,6 +43,8 @@ Gemini - leveraged Colab's Gemini tool to troubleshoot coding errors while runni
 
 Alamy - graphic reference for our BMI index chart for the website
 
+ChatGPT - Powerpoint presentation heart graphics
+
 Joblib library - https://joblib.readthedocs.io/en/stable/
 
 Utilized module challenge homework and weekly exercises for model coding examples and references.
