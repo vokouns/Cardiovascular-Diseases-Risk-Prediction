@@ -28,9 +28,9 @@ In our optimization, we decided to utilize fewer layers (three), various hidden 
 
 We decided to try two additional modules with similar optimizations to see if we could increase the precision score. First, we ran the Random Forest model again with the new split, which garnered very similar results to the first try. The Random Forest model had an accuracy score of 92% for heart disease but a precision score of 41%. 
 
-We decided to add a linear regression model to our optimization. We split and trained the data similarly to previous models. We also created a confusion matrix and classification report. For heart disease, this model's results were 92% accuracy and 55% precision, which were still low but higher than the other two models.
+We decided to add a logistic regression model to our optimization. We split and trained the data similarly to previous models. We also created a confusion matrix and classification report. For heart disease, this model's results were 92% accuracy and 55% precision, which were still low but higher than the other two models.
 
-We moved forward with the linear regression model as our prediction model since these were the highest results. We ran a quick test to see if our model would make a prediction, which it did. We then decided to create an online platform where individuals could input their health data to determine whether they were at risk for CDV. 
+We moved forward with the logistic regression model as our prediction model since these were the highest results. We ran a quick test to see if our model would make a prediction, which it did. We then decided to create an online platform where individuals could input their health data to determine whether they were at risk for CDV. 
 
 ## Site Creation
 To build our site, we had to create our Flask and Python files to run it. The index file holds all of our coding for how the site looks, including headers, boxes for our input data, titles, an about section, and a contact section. 
